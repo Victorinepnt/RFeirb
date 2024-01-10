@@ -12,7 +12,7 @@ data_bruit = np.load('icassp2024rfchallenge/TestSet1Mixture/TestSet1Mixture_test
 # Récupération du signal
 
 nb_tot = len(data)
-nb_bruit = 4;
+nb_bruit = 10;
 #indices_signaux = np.linspace(0,nb_tot-1,nb_signaux).astype(int); #[0, 1099]
 indices_bruit = np.random.choice(np.arange(nb_tot), size=nb_bruit, replace=False)
 Bruit = [];
