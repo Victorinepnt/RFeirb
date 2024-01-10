@@ -12,22 +12,30 @@ data_bruit = np.load('icassp2024rfchallenge/TestSet1Mixture/TestSet1Mixture_test
 # Récupération du signal
 
 nb_tot = len(data)
-nb_bruit = 10;
+nb_bruit = 2;
 #indices_signaux = np.linspace(0,nb_tot-1,nb_signaux).astype(int); #[0, 1099]
 indices_bruit = np.random.choice(np.arange(nb_tot), size=nb_bruit, replace=False)
 Bruit = [];
 mean_sig = [];
 
-
+mean_bruit = np.mean(data)
+median_bruit = np.median(data_bruit)
+std_bruit = np.std(data_bruit)
 for indice in indices_bruit:
     # mean_sig.append(np.mean(np.real(data[indice])))
     # Signal.append(data[indice] + np.mean(data[indice]) * 1000);
     bruit = data_bruit[indice] 
     #print("mean" + str(np.mean(data[indice])) + "mean real" + str(np.mean(np.real(data[indice]))))
     #energy = np.sum(np.abs(signal)**2)  
-    normalized_bruit = bruit / np.mean(bruit)  # normalisation
-    Bruit.append(normalized_bruit)
-    mean_sig.append(np.mean(np.real(normalized_bruit)))
+    #normalized_bruit = bruit / np.mean(bruit)  # normalisation
+    #normalized_bruit = bruit - np.mean(bruit)
+    # energy = np.sum(bruit**2)
+    # normalized_bruit = bruit / np.sqrt(energy)
+    # IQR = np.percentile(bruit, 75) - np.percentile(bruit, 25)
+    # normalized_bruit = (bruit - np.median(bruit)) / IQR
+
+    Bruit.append(bruit)
+    #mean_sig.append(np.mean(np.real(normalized_bruit)))
     
 
 # Affichage du signal
@@ -64,10 +72,10 @@ for i in range(nb_bruit):
 
 
 plt.figure()
-plt.hist(Z, bins=200, density = True, alpha = 0.5);
+plt.hist(Z, bins=500, density = True, alpha = 0.5);
 
 # Loi approximée par méthode des noyaux
-epsilon2 = 0.01
+epsilon2 = 0.001
 
 z = np.linspace(-300, 300, 300);
 hpz = np.zeros_like(z)
