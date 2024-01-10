@@ -7,27 +7,27 @@ plt.close()
 # Charger le fichier npy
 data = np.load('icassp2024rfchallenge/TestSet1Mixture/TestSet1Mixture_testmixture_QPSK_CommSignal5G1.npy')
 metadata = np.load('icassp2024rfchallenge/TestSet1Mixture/TestSet1Mixture_testmixture_QPSK_CommSignal5G1_metadata.npy')
-bruit = np.load('icassp2024rfchallenge/TestSet1Mixture/TestSet1Mixture_testmixture_QPSK_CommSignal5G1.npy')
+data_bruit = np.load('icassp2024rfchallenge/TestSet1Mixture/TestSet1Mixture_testmixture_QPSK_CommSignal5G1.npy')
 
 # Récupération du signal
 
 nb_tot = len(data)
-nb_signaux = 2;
+nb_bruit = 4;
 #indices_signaux = np.linspace(0,nb_tot-1,nb_signaux).astype(int); #[0, 1099]
-indices_signaux = np.random.choice(np.arange(nb_tot), size=nb_signaux, replace=False)
-Signal = [];
+indices_bruit = np.random.choice(np.arange(nb_tot), size=nb_bruit, replace=False)
+Bruit = [];
 mean_sig = [];
 
 
-for indice in indices_signaux:
+for indice in indices_bruit:
     # mean_sig.append(np.mean(np.real(data[indice])))
     # Signal.append(data[indice] + np.mean(data[indice]) * 1000);
-    signal = data[indice] 
+    bruit = data_bruit[indice] 
     #print("mean" + str(np.mean(data[indice])) + "mean real" + str(np.mean(np.real(data[indice]))))
     #energy = np.sum(np.abs(signal)**2)  
-    normalized_signal = signal / np.mean(signal)  # normalisation
-    Signal.append(normalized_signal)
-    mean_sig.append(np.mean(np.real(normalized_signal)))
+    normalized_bruit = bruit / np.mean(bruit)  # normalisation
+    Bruit.append(normalized_bruit)
+    mean_sig.append(np.mean(np.real(normalized_bruit)))
     
 
 # Affichage du signal
@@ -36,8 +36,8 @@ for indice in indices_signaux:
 
 # Histogramme
 plt.figure()
-for j in range(nb_signaux):
-    plt.hist(np.real(Signal[j]), bins=20, density=True, alpha=0.5, label=f'Signal {j+1}')
+for j in range(nb_bruit):
+    plt.hist(np.real(Bruit[j]), bins=20, density=True, alpha=0.5, label=f'Signal {j+1}')
     plt.legend()
 
 # plt.figure()
@@ -52,11 +52,11 @@ for j in range(nb_signaux):
 
 # plt.show()
 
-long = len(Signal[0]);
+long = len(Bruit[0]);
 Z = np.zeros(long)
-B = np.random.randint(0, nb_signaux, size=long)
-for i in range(nb_signaux):
-    Z[B == i] = Signal[i][B == i];
+B = np.random.randint(0, nb_bruit, size=long)
+for i in range(nb_bruit):
+    Z[B == i] = Bruit[i][B == i];
     print(Z[B == i])
 
 # Z[B==0] = Signal[0][B==0];
